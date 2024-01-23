@@ -26,7 +26,7 @@ class MMdetHandler(BaseHandler):
         checkpoint = os.path.join(model_dir, serialized_file)
         self.config_file = os.path.join(model_dir, 'config.py')
 
-        self.model = init_detector(self.config_file, checkpoint, self.device)
+        self.model = init_detector(self.config_file, checkpoint, device=self.device)
         self.initialized = True
 
     def preprocess(self, data):
