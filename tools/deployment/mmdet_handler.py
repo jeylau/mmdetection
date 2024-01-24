@@ -27,6 +27,7 @@ class MMdetHandler(BaseHandler):
         self.config_file = os.path.join(model_dir, 'config.py')
 
         self.model = init_detector(self.config_file, checkpoint, device=self.device)
+        self.threshold = self.model.cfg.model.test_cfg.score_thr
         self.initialized = True
 
     def preprocess(self, data):
