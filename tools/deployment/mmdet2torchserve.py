@@ -123,4 +123,4 @@ if __name__ == '__main__':
                           'Try: pip install torch-model-archiver')
 
     mmdet2torchserve(args.config, args.checkpoint, args.yaml, args.output_folder,
-                     args.model_name, args.archive_format, args.model_version, args.force)
+                     args.model_name, args.model_version, args.archive_format, args.force)
