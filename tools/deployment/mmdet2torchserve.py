@@ -20,6 +20,7 @@ def mmdet2torchserve(
     output_folder: str,
     model_name: str,
     model_version: str = '1.0',
+    archive_format: str = 'tgz',
     force: bool = False,
 ):
     """Converts MMDetection model (config + checkpoint) to TorchServe `.mar`.
@@ -42,6 +43,9 @@ def mmdet2torchserve(
             If None, `{Path(checkpoint_file).stem}` will be used.
         model_version:
             Model's version.
+        archive_format:
+            TorchServe's archive format.
+            One of ['default', 'tgz', 'no-archive'].
         force:
             If True, if there is an existing `{model_name}.mar`
             file under `output_folder` it will be overwritten.
@@ -66,7 +70,7 @@ def mmdet2torchserve(
                 'requirements_file': None,
                 'extra_files': None,
                 'runtime': 'python',
-                'archive_format': 'default'
+                'archive_format': archive_format,
             })
         manifest = ModelExportUtils.generate_manifest_json(args)
         package_model(args, manifest)
@@ -96,6 +100,12 @@ def parse_args():
         default='1.0',
         help='Number used for versioning.')
     parser.add_argument(
+        '--archive-format',
+        type=str,
+        default='tgz',
+        choices=['default', 'tgz', 'no-archive'],
+        help='TorchServe archive format.')
+    parser.add_argument(
         '-f',
         '--force',
         action='store_true',
@@ -113,4 +123,4 @@ if __name__ == '__main__':
                           'Try: pip install torch-model-archiver')
 
     mmdet2torchserve(args.config, args.checkpoint, args.yaml, args.output_folder,
-                     args.model_name, args.model_version, args.force)
+                     args.model_name, args.archive_format, args.model_version, args.force)
